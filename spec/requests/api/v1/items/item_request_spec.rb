@@ -74,4 +74,14 @@ RSpec.describe "Items API" do
     expect(item.name).to eq("IPhone")
     expect(item.name).to_not eq(previous_name)
   end
+
+  it "will be able to delete an item" do
+    expect(Item.all).to include(@item_merchant_2)
+    expect(Item.all.count).to eq(4)
+
+    delete "/api/v1/items/#{@item_merchant_2.id}"
+
+    expect(Item.all).not_to include(@item_merchant_2)
+    expect(Item.all.count).to eq(3)
+  end
 end
