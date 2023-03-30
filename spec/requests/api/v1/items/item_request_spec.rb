@@ -84,4 +84,15 @@ RSpec.describe "Items API" do
     expect(Item.all).not_to include(@item_merchant_2)
     expect(Item.all.count).to eq(3)
   end
+
+  it "sends the merchant data from a specific item ID" do 
+    
+    get "/api/v1/items/#{@item_merchant_2.id}/merchant"
+
+    merchant = JSON.parse(response.body, symbolize_names: true)
+  
+    expect(response.status).to eq(200)
+    expect(merchant[:data][:attributes][:name]).to eq(@merchant2.name)
+    
+  end
 end
