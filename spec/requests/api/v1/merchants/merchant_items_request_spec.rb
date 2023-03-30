@@ -2,8 +2,8 @@ require "rails_helper"
 
 describe "Merchant Items API" do 
   before :each do 
-    @merchant = create(:merchant)
-    @items = create_list(:item, 3)
+    @merchant = create(:merchant, id: 1)
+    @items = create_list(:item, 3 )
   end 
 
   it "sends a list of all items for a specific merchant" do 
