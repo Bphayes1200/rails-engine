@@ -19,9 +19,20 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   def update 
+    error = ErrorMember.new("Item not updated", "BAD REQUEST", 400)
     item = Item.find(params[:id])
-    item.update(item_params)
-    render json: ItemSerializer.new(item), status: :ok
+ 
+    if params[:merchant_id] != nil
+      if Merchant.find(params[:merchant_id])
+        item.update(item_params)
+        render json: ItemSerializer.new(item), status: :ok
+      else 
+        render json: ErrorMemberSerializer.new(error)
+      end
+    else 
+      item.update(item_params)
+      render json: ItemSerializer.new(item), status: :ok
+    end  
   end
 
 private
