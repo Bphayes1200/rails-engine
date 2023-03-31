@@ -3,13 +3,13 @@ class Api::V1::ItemsController < ApplicationController
     render json: ItemSerializer.new(Item.all)
   end
 
-  def show 
+  def show
     render json: ItemSerializer.new(Item.find(params[:id]))
   end
 
 
   def create
-    error = ErrorMember.new("Item not created", "BAD REQUEST", 400)
+    # error = ErrorMember.new("Item not created", "BAD REQUEST", 400)
     item = Item.new(item_params)
     if item.save
       render json: ItemSerializer.new(item), status: :created
@@ -19,7 +19,7 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   def update 
-    error = ErrorMember.new("Item not updated", "BAD REQUEST", 400)
+    # error = ErrorMember.new("Item not updated", "BAD REQUEST", 400)
     item = Item.find(params[:id])
  
     if params[:merchant_id] != nil
@@ -27,7 +27,8 @@ class Api::V1::ItemsController < ApplicationController
         item.update(item_params)
         render json: ItemSerializer.new(item), status: :ok
       else 
-        render json: ErrorMemberSerializer.new(error)
+        error_memember = ErrorMemberSerializer.new(error)
+        render json: error_member.serialized_json
       end
     else 
       item.update(item_params)
@@ -37,6 +38,16 @@ class Api::V1::ItemsController < ApplicationController
 
   def destroy
     item = Item.find(params[:id]).destroy
+  end
+
+  def find 
+    # error = ErrorMember.new("Internal Server Error", "Internal Server Error", 500)
+    if Item.find_item_by_name(params[:name]) != (nil) 
+      item = Item.find_item_by_name(params[:name])
+      render json: ItemSerializer.new(item), status: :ok
+    else 
+      render json: ErrorMemberSerializer.new(error).serialized_json
+    end
   end
 
 private

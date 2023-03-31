@@ -6,7 +6,7 @@ class Merchant < ApplicationRecord
   has_many :customers, through: :invoices
   
   def self.find_all_merchants_by_name(name)
-    self.where(name: name).order(:name)
+    self.where('name ILIKE ?', "%#{name}%").order(:name)
   end 
 end
 

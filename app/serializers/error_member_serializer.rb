@@ -1,5 +1,5 @@
 class ErrorMemberSerializer
-  def initailize(error_object)
+  def initialize(error_object)
     @error_object = error_object
   end
 

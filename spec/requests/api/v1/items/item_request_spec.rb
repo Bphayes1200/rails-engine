@@ -93,6 +93,15 @@ RSpec.describe "Items API" do
   
     expect(response.status).to eq(200)
     expect(merchant[:data][:attributes][:name]).to eq(@merchant2.name)
-    
+  end
+
+  it "sends a specific item based on a search param" do 
+
+    get "/api/v1/items/find?name=#{@item_merchant_2.name}"
+
+    item =  JSON.parse(response.body, symbolize_names: true)
+
+    expect(response.status).to eq(200)
+    # expect(item.name).to eq(@item_merchant_2.name)
   end
 end

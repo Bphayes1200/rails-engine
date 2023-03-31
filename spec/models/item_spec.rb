@@ -14,8 +14,7 @@ RSpec.describe Item, type: :model do
       @item1 = create(:item)
     end
     it "find_item_by_name" do 
-    
-      expect(Item.find_item_by_name(@item1.name)).to eq([@item1])
+      expect(Item.find_item_by_name(@item1.name)).to eq(@item1)
     end
   end
 end 
