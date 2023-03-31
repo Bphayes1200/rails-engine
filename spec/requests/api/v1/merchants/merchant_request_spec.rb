@@ -31,4 +31,18 @@ describe "Merchants API" do
 
     expect(merchant[:data][:attributes][:name]).to be_a(String)
   end
+
+  it "will return all of the merchants based on a search param" do 
+    merchant4 = create(:merchant, name: @list.first.name)
+
+    get "/api/v1/merchants/find_all?name=#{merchant4.name}"
+
+    merchants = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response.status).to eq(200)
+
+    merchants[:data].each do |merchant|
+      expect(merchant[:attributes][:name]).to eq(merchant4.name)
+    end 
+  end
 end
